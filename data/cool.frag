@@ -9,13 +9,15 @@ out vec4 out_color;
 #define TAU 6.283185307179586
 
 #define EYES sliders[0]
-#define WOBBLY sliders[1]
+#define BUBBLY sliders[1]
 #define PERFORATIONS sliders[2]
 #define SHIFTY sliders[3]
 #define REDYELLOW sliders[4]
 #define HUE sliders[5]
 #define CRUNCH sliders[6]
 #define QUANTIZE sliders[7]
+
+// main function is at the bottom
 
 // ever watchful
 
@@ -128,14 +130,14 @@ vec3 ever_watchful(vec2 fragCoord, float t) {
   return color;
 }
 
-// wobbly
+// bubbly
 
 vec3 c1a = vec3(0.0, 0.0, 0.0);
 vec3 c1b = vec3(0.9, 0.0, 0.4);
 vec3 c2a = vec3(0.0, 0.5, 0.9);
 vec3 c2b = vec3(0.0, 0.0, 0.0);
 
-vec3 wobbly(vec2 fragCoord, float t) {
+vec3 bubbly(vec2 fragCoord, float t) {
   vec2 p = 2.0*(0.5 * resolution.xy - fragCoord.xy) / resolution.xx;
   float angle = atan(p.y, p.x);
   float turn = (angle + 0.5*TAU) / TAU;
@@ -576,13 +578,13 @@ void main() {
   float t = mix(time, quantize(xy0, time), pow(QUANTIZE, 2.5));
   
   vec3 c_eyes = EYES * ever_watchful(xy, t);
-  vec3 c_wobbly = WOBBLY * wobbly(xy, t);
+  vec3 c_bubbly = BUBBLY * bubbly(xy, t);
   vec3 c_perforations = PERFORATIONS * perforations(xy, t);
   vec3 c_shifty = SHIFTY * shifty(xy, t);
-  vec3 bg = c_eyes + c_wobbly + c_perforations + c_shifty;
+  vec3 c = c_eyes + c_bubbly + c_perforations + c_shifty;
 
-  vec3 bg_ry = redyellow(REDYELLOW, bg);
-  vec3 bg_hue = hueshift(HUE, bg_ry);
+  vec3 c_ry = redyellow(REDYELLOW, c);
+  vec3 c_hue = hueshift(HUE, c_ry);
   
-  out_color = vec4(bg_hue, 1.0);
+  out_color = vec4(c_hue, 1.0);
 }

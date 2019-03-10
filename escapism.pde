@@ -8,7 +8,7 @@ MidiBus midibus;
 PShader sh;
 boolean inited = false;
 float[] sliders = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-int channel0 = 30;
+int cc_0 = 30;
 
 void setup() {
   //size(960, 540, P3D);
@@ -45,7 +45,7 @@ void controllerChange(int channel, int number, int value) {
     return;
   }
   
-  int offset = number - channel0;
+  int offset = number - cc_0;
   
   if(0 <= offset && offset < sliders.length) {
     sliders[offset] = float(value) / 127.0;
