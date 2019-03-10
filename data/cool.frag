@@ -71,7 +71,7 @@ vec3 eyes(float t, vec2 coord) {
   float theta = TAU/4.0 + scale(0.0, 1.0, -1.0, 1.0, rand(vec2(0.0, timestep(d_step1, t))));
 
   float k_p1 = scale(0.0, 1.0, 2.0, 5.0, rand(vec2(timestep(d_step2, t), 0.0)));
-  vec2 p1 = k_p1 * (p0_step /*+ 0.125*/);
+  vec2 p1 = k_p1 * p0_step;
 		
   vec2 p2 = shear(theta, p1);
 	
@@ -79,7 +79,7 @@ vec3 eyes(float t, vec2 coord) {
   vec2 p_c = floor(p2) + 0.5 + scale(0.0, 1.0, -d_move, d_move, rand(vec2(timestep(d_step3, t), 0.0)));
   vec2 p3 = unshear(theta, p_c);
 		
-  float radius = scale(0.0, 1.0, 0.3, 0.6, rand(vec2(-42.0, timestep(0.21 * unit, t))));//0.25;
+  float radius = scale(0.0, 1.0, 0.3, 0.6, rand(vec2(-42.0, timestep(0.21 * unit, t))));
   float rings = floor(scale(0.0, 1.0, 1.0, 4.0, rand(vec2(0.0, timestep(d_step4, t)))));
   float dist = distance(p3, p1);
   float ring_i = floor(dist/radius * rings);
@@ -141,7 +141,7 @@ vec3 wobbly(vec2 fragCoord, float t) {
   float turn = (angle + 0.5*TAU) / TAU;
   float radius = sqrt(p.x*p.x + p.y*p.y);
 	
-  float sine_kf = 19.0;//9.0 * sin(0.1*t);
+  float sine_kf = 19.0;
   float ka_wave_rate = 0.94;
   float ka_wave = sin(ka_wave_rate*t);
   float sine_ka = 0.35 * ka_wave;
@@ -385,7 +385,6 @@ vec3 perforations(vec2 fragCoord, float t) {
   p1_polar.y = p1_polar.y * pow(1.0 + wave_cos, 1.5);
   vec2 p1 = cartesian(p1_polar);
 	
-  //float theta = TAU / 2.1;
   float theta = TAU / 3.0;
 	
   float rot1 = 0.0011 * TAU * t;
@@ -424,7 +423,6 @@ vec3 perforations(vec2 fragCoord, float t) {
     color = fg;
   } else if(k < 1.0) {
     color = blend(k, bg/0.2, fg);
-    //color = blend(k, fg, bg/0.3);
   } else {
     color = blend(k-1.0, 0.9*bg, bg);   
   }
@@ -560,7 +558,7 @@ float quantize(vec2 xy, float t) {
   vec2 rel = xy/resolution;
   float n = 100 / (1.0 + abs(rel.x - 0.5) * 9.0);
   float k_q = cnoise(vec3(floor(abs(rel.y-0.5)*2.0*n)*1.234, 0.0, 0.0));
-  float duration = scale(0.0, 1.0, 0.7, 0.8, k_q); //floor(xy.y/resolution.y*n)/n;
+  float duration = scale(0.0, 1.0, 0.7, 0.8, k_q);
   return timestep(duration, t);
 }
 
@@ -587,5 +585,4 @@ void main() {
   vec3 bg_hue = hueshift(HUE, bg_ry);
   
   out_color = vec4(bg_hue, 1.0);
-  //out_color = vec4(sliders[0], sliders[1], sliders[2], 1.0);
 }

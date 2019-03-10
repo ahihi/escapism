@@ -21,23 +21,6 @@ void setup() {
   MidiBus.list();
   midibus = new MidiBus(this, midi_device, -1);
 
-  /*
-  pg = createGraphics(width, height, P3D);
-  pg.beginDraw();
-  pg.fill(255, 255, 255);
-  pg.noFill();
-  pg.endDraw();
-  
-  feedback_shader = loadShader("feedback.frag");
-  pg2 = createGraphics(width, height, P3D);
-  pg2.beginDraw();
-  pg2.background(0, 0, 0);
-  pg2.fill(255, 255, 255);
-  pg2.noStroke();
-  pg2.shader(feedback_shader);
-  pg2.endDraw();
-  */
-
   sh = loadShader("cool.frag");
   
   inited = true;
